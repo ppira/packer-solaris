@@ -1,0 +1,54 @@
+{
+  "builders":
+  [
+    {
+      "type": "qemu",
+      "headless": "true",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "sha256:e3a29507e583acbc0b912f371c8f328fea7cb6257d587cbc0a651477a52b0a29",
+      "output_directory": "output_solaris11",
+      "shutdown_command": "echo 1vagrant | sudo -S /usr/sbin/poweroff",
+      "cpus": "2",
+      "disk_size": "16384M",
+      "memory": "3072",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "ssh_username": "vagrant",
+      "ssh_password": "1vagrant",
+      "ssh_timeout": "90m",
+      "vm_name": "solaris",
+      "net_device": "e1000",
+      "disk_interface": "ide",
+      "boot_wait": "1s",
+      "boot_command": [
+        "e<down><down><down><down><down>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+	"<del><del><del><del><del><del>",
+	"http://{{ .HTTPIP }}:{{ .HTTPPort }}/default.xml<f10>",
+	"<wait20m>",
+	"<f2>{{ .Name }}<f2><wait><f2><wait><f2>europe<wait><f2>sweden<wait><f2>",
+	"<wait><f2>english<wait><f2><down><down><down><wait><f2><wait>",
+	"<f2>swedish<wait><f2>",
+	"1vagrant<tab>1vagrant<tab>Vagrant<tab>vagrant<tab>1vagrant<tab>1vagrant<wait>",
+	"<f2><wait><f2><wait><f2>"
+      ]
+    }
+  ],
+  "variables": {
+	  "home": "{{ env `HOME` }}",
+	  "iso_url": "file:///{{ user `home` }}/packer-solaris/sol-11_4-ai-x86.iso"
+  },
+  "provisioners": [
+     {
+	  "type": "shell",
+	  "execute_command": "echo '1vagrant' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+	  "inline": [ "/usr/sbin/svcadm disable sendmail",
+		  "/usr/sbin/svcadm disable asr-notify" ]
+     }
+  ]
+}
