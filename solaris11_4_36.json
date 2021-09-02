@@ -1,0 +1,57 @@
+{
+  "builders":
+  [
+    {
+      "type": "qemu",
+      "headless": "true",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum": "sha256:529624fab789764c13d0e85be867f38a71ff8d82e53282893d555de02528db9f",
+      "output_directory": "output_solaris11",
+      "shutdown_command": "echo 1vagrant | sudo -S /usr/sbin/poweroff",
+      "cpus": "2",
+      "disk_size": "16384M",
+      "memory": "2048",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "ssh_username": "vagrant",
+      "ssh_password": "1vagrant",
+      "ssh_timeout": "90m",
+      "vm_name": "solaris",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "disk_compression": "true",
+      "boot_wait": "1s",
+      "boot_command": [
+        "e<down><down><down><down><down>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+        "<right><right><right><right><right><right><right><right><right><right>",
+	"<del><del><del><del><del><del>",
+	"http://{{ .HTTPIP }}:{{ .HTTPPort }}/default.xml<f10>",
+	"<wait24m>",
+	"<f2>{{ .Name }}<f2><wait><f2><wait><f2>europe<wait><f2>sweden<wait><f2>",
+	"<wait><f2>english<wait><f2><down><down><down><wait><f2><wait>",
+	"<f2>swedish<wait><f2>",
+	"1vagrant<tab>1vagrant<tab>Vagrant<tab>vagrant<tab>1vagrant<tab>1vagrant<wait>",
+	"<f2><wait><f2><wait><f2>"
+      ]
+    }
+  ],
+  "variables": {
+	  "home": "{{ env `HOME` }}",
+	  "iso_url": "file:///{{ user `home` }}/packer-solaris/sol-11_4_36_101_2-ai-x86.iso"
+  },
+  "provisioners": [
+     {
+	  "type": "shell",
+	  "execute_command": "echo '1vagrant' | {{ .Vars }} sudo -S -E bash {{ .Path }}",
+	  "inline": [ "/usr/sbin/svcadm disable sendmail",
+	              "/usr/bin/svcs -l sendmail",
+	              "/usr/sbin/svcadm disable asr-notify",
+	              "/usr/bin/svcs -l asr-notify" ]
+     }
+  ]
+}
