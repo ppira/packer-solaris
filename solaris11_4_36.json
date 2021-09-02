@@ -49,9 +49,9 @@
 	  "type": "shell",
 	  "execute_command": "echo '1vagrant' | {{ .Vars }} sudo -S -E bash {{ .Path }}",
 	  "inline": [ "/usr/sbin/svcadm disable sendmail",
-	              "/usr/bin/svcs -l sendmail",
 	              "/usr/sbin/svcadm disable asr-notify",
-	              "/usr/bin/svcs -l asr-notify" ]
+	              "/usr/sbin/svcadm disable webui/server",
+	              "/usr/sbin/svcadm disable iscsi/initiator" ]
      }
   ]
 }
