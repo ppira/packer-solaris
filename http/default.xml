@@ -95,7 +95,7 @@
 
       -->
       <software_data action="install">
-        <name>pkg:/entire@11.4-11.4</name>
+        <name>pkg:/entire@latest</name>
         <name>pkg:/group/system/solaris-small-server</name>
       </software_data>
     </software>
