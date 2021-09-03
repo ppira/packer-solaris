@@ -56,4 +56,5 @@ build {
       "/usr/sbin/svcadm disable iscsi/initiator"]
   }
 
+  post-processor "manifest" {}
 }
