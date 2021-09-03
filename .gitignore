@@ -1,3 +1,4 @@
 *.iso
 output_*
 packer_cache
+packer-manifest.json
